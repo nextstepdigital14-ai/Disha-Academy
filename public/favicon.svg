@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="8" fill="#1e3a8a"/>
+  <!-- Compass/Direction 'Disha' Star / Cap Icon -->
+  <path d="M16 4L26 9L16 14L6 9L16 4Z" fill="#f59e0b"/>
+  <path d="M10 12V18C10 21.3137 12.6863 24 16 24C19.3137 24 22 21.3137 22 18V12L16 15L10 12Z" fill="#3b82f6"/>
+  <circle cx="26" cy="12" r="1.5" fill="#f59e0b"/>
+  <path d="M26 12V19" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
