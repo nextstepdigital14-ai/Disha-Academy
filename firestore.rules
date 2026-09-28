@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.role == 'admin' ||
+        request.auth.token.email.matches('.*admin.*')
+      );
+    }
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Public readable site settings, courses, announcements, notes metadata
+    match /settings/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /courses/{courseId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /announcements/{annId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /notes/{noteId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /questions/{questionId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    match /tests/{testId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /enquiries/{enquiryId} {
+      allow create: if true; // Public can submit admission form
+      allow read, update, delete: if isAdmin();
+    }
+    match /attempts/{attemptId} {
+      allow create: if true;
+      allow read: if isAuthenticated() && (resource.data.studentId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) || isAdmin();
+    }
+  }
+}
